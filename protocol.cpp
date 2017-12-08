@@ -22,11 +22,10 @@ static const char* ppszTypeName[] =
     "block",
 };
 
-unsigned char pchMessageStart[4] = { 0xf9, 0xbe, 0xb4, 0xd9 };
-
 CMessageHeader::CMessageHeader()
 {
-    memcpy(pchMessageStart, ::pchMessageStart, sizeof(pchMessageStart));
+    unsigned char * msgStart = GetMessageStart();
+    memcpy(pchMessageStart, msgStart, sizeof(msgStart));
     memset(pchCommand, 0, sizeof(pchCommand));
     pchCommand[1] = 1;
     nMessageSize = -1;
@@ -35,7 +34,8 @@ CMessageHeader::CMessageHeader()
 
 CMessageHeader::CMessageHeader(const char* pszCommand, unsigned int nMessageSizeIn)
 {
-    memcpy(pchMessageStart, ::pchMessageStart, sizeof(pchMessageStart));
+    unsigned char * msgStart = GetMessageStart();
+    memcpy(pchMessageStart, msgStart, sizeof(msgStart));
     strncpy(pchCommand, pszCommand, COMMAND_SIZE);
     nMessageSize = nMessageSizeIn;
     nChecksum = 0;
@@ -52,7 +52,8 @@ std::string CMessageHeader::GetCommand() const
 bool CMessageHeader::IsValid() const
 {
     // Check start string
-    if (memcmp(pchMessageStart, ::pchMessageStart, sizeof(pchMessageStart)) != 0)
+    unsigned char * msgStart = GetMessageStart();
+    if (memcmp(pchMessageStart, msgStart, sizeof(pchMessageStart)) != 0)
         return false;
 
     // Check the command string for errors

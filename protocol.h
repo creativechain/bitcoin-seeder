@@ -16,9 +16,18 @@
 #include "uint256.h"
 
 extern bool fTestNet;
+
+unsigned char pchMessageStartMainnet[4] = { 0xcc, 0xcc, 0xcc, 0xcc };
+unsigned char pchMessageStartTestnet[4] = { 0xca, 0xca, 0xca, 0xca };
+
 static inline unsigned short GetDefaultPort(const bool testnet = fTestNet)
 {
-    return testnet ? 18333 : 8333;
+    return testnet ? 11946 : 10946;
+}
+
+static inline unsigned char * GetMessageStart(const bool testnet = fTestNet)
+{
+    return testnet ? pchMessageStartTestnet : pchMessageStartMainnet;
 }
 
 //
@@ -27,8 +36,6 @@ static inline unsigned short GetDefaultPort(const bool testnet = fTestNet)
 //  (12) command
 //  (4) size
 //  (4) checksum
-
-extern unsigned char pchMessageStart[4];
 
 class CMessageHeader
 {
@@ -51,7 +58,7 @@ class CMessageHeader
     // TODO: make private (improves encapsulation)
     public:
         enum { COMMAND_SIZE=12 };
-        char pchMessageStart[sizeof(::pchMessageStart)];
+        char pchMessageStart[4];
         char pchCommand[COMMAND_SIZE];
         unsigned int nMessageSize;
         unsigned int nChecksum;
