@@ -17,8 +17,8 @@
 
 extern bool fTestNet;
 
-unsigned char pchMessageStartMainnet[4] = { 0xcc, 0xcc, 0xcc, 0xcc };
-unsigned char pchMessageStartTestnet[4] = { 0xca, 0xca, 0xca, 0xca };
+static const unsigned char pchMessageStartMainnet[4] = { 0xcc, 0xcc, 0xcc, 0xcc };
+static const unsigned char pchMessageStartTestnet[4] = { 0xca, 0xca, 0xca, 0xca };
 
 static inline unsigned short GetDefaultPort(const bool testnet = fTestNet)
 {
