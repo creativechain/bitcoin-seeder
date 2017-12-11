@@ -25,7 +25,7 @@ static inline unsigned short GetDefaultPort(const bool testnet = fTestNet)
     return testnet ? 11946 : 10946;
 }
 
-static inline unsigned char * GetMessageStart(const bool testnet = fTestNet)
+static const unsigned char * GetMessageStart(const bool testnet = fTestNet)
 {
     return testnet ? pchMessageStartTestnet : pchMessageStartMainnet;
 }
