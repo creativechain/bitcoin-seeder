@@ -24,7 +24,7 @@ static const char* ppszTypeName[] =
 
 CMessageHeader::CMessageHeader()
 {
-    unsigned char * msgStart = GetMessageStart();
+    const unsigned char * msgStart = GetMessageStart();
     memcpy(pchMessageStart, msgStart, sizeof(msgStart));
     memset(pchCommand, 0, sizeof(pchCommand));
     pchCommand[1] = 1;
@@ -34,7 +34,7 @@ CMessageHeader::CMessageHeader()
 
 CMessageHeader::CMessageHeader(const char* pszCommand, unsigned int nMessageSizeIn)
 {
-    unsigned char * msgStart = GetMessageStart();
+    const unsigned char * msgStart = GetMessageStart();
     memcpy(pchMessageStart, msgStart, sizeof(msgStart));
     strncpy(pchCommand, pszCommand, COMMAND_SIZE);
     nMessageSize = nMessageSizeIn;
@@ -52,7 +52,7 @@ std::string CMessageHeader::GetCommand() const
 bool CMessageHeader::IsValid() const
 {
     // Check start string
-    unsigned char * msgStart = GetMessageStart();
+    const unsigned char * msgStart = GetMessageStart();
     if (memcmp(pchMessageStart, msgStart, sizeof(pchMessageStart)) != 0)
         return false;
 
