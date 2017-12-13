@@ -139,7 +139,7 @@ public:
           }
           break;
         }
-
+        
         case '?': {
           showHelp = true;
           break;
@@ -152,8 +152,13 @@ public:
         filter_whitelist.insert(9);
         filter_whitelist.insert(13);
     }
-    if (host != NULL && ns == NULL) showHelp = true;
-    if (showHelp) fprintf(stderr, help, argv[0]);
+    if (host != NULL && ns == NULL) {
+        showHelp = true;
+    }
+    
+    if (showHelp) {
+        fprintf(stderr, help, argv[0]);
+    }
   }
 };
 
@@ -397,17 +402,20 @@ extern "C" void* ThreadStats(void*) {
   return nullptr;
 }
 
-static const string mainnet_seeds[] = {""};
-static const string testnet_seeds[] = {"testnet-seed.alexykot.me",
-                                       "testnet-seed.bitcoin.petertodd.org",
-                                       "testnet-seed.bluematt.me",
-                                       "testnet-seed.bitcoin.schildbach.de",
+static const string mainnet_seeds[] = {"creaseed.owldevelopers.site",
+                                       "dnsseed.creativecoin.net"
                                        ""};
+
+static const string testnet_seeds[] = {"tcreaseed.owdevelopers.site",
+                                       "testnet-seed.creativecoin.net",
+                                       ""};
+
 static const string *seeds = mainnet_seeds;
 
 extern "C" void* ThreadSeeder(void*) {
   if (!fTestNet){
-    db.Add(CService("kjy2eqzk4zwi5zd3.onion", 8333), true);
+      int port = GetDefaultPort(fTestNet);
+      db.Add(CService("kjy2eqzk4zwi5zd3.onion", port), true);
   }
   do {
     for (int i=0; seeds[i] != ""; i++) {
