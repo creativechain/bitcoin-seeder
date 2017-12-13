@@ -302,7 +302,7 @@ int main(void) {
   vector<CAddress> vAddr;
   vAddr.clear();
   int ban = 0;
-  bool ret = TestNode(ip, ban, 589, vAddr);
+  bool ret = TestNode(ip, ban, 589, &vAddr);
   printf("ret=%s ban=%i vAddr.size()=%i\n", ret ? "good" : "bad", ban, (int)vAddr.size());
 }
 
