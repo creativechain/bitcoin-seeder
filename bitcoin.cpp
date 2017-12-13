@@ -305,7 +305,7 @@ int main(void) {
   int ver = 0;
   std::string cVer = "";
   std::string cSubVer = "";
-  bool ret = TestNode(ip, ban, ver, cVer, cSubVer, vAddr);
+  bool ret = TestNode(ip, ban, ver, cVer, cSubVer, 589, vAddr);
   printf("ret=%s ban=%i vAddr.size()=%i\n", ret ? "good" : "bad", ban, (int)vAddr.size());
 }
 
