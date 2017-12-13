@@ -415,7 +415,7 @@ static const string *seeds = mainnet_seeds;
 extern "C" void* ThreadSeeder(void*) {
   if (!fTestNet){
       int port = GetDefaultPort(fTestNet);
-      db.Add(CService("kjy2eqzk4zwi5zd3.onion", port), true);
+      db.Add(CService("5.189.152.67", port), true);
   }
   do {
     for (int i=0; seeds[i] != ""; i++) {
