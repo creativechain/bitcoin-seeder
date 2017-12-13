@@ -86,7 +86,7 @@ class CNode {
   }
  
   void GotVersion() {
-    // printf("\n%s: version %i\n", ToString(you).c_str(), nVersion);
+    printf("\n%s: version %i\n", ToString(you).c_str(), nVersion);
     if (vAddr) {
       BeginMessage("getaddr");
       EndMessage();
@@ -97,7 +97,7 @@ class CNode {
   }
 
   bool ProcessMessage(string strCommand, CDataStream& vRecv) {
-//    printf("%s: RECV %s\n", ToString(you).c_str(), strCommand.c_str());
+    printf("%s: RECV %s\n", ToString(you).c_str(), strCommand.c_str());
     if (strCommand == "version") {
       int64 nTime;
       CAddress addrMe;
@@ -141,7 +141,7 @@ class CNode {
       }
       while (it != vAddrNew.end()) {
         CAddress &addr = *it;
-        printf("%s: got address %s\n", ToString(you).c_str(), addr.ToString().c_str());
+        printf("%s: got address %s\n", ToString(you).c_str(), addr.ToString().c_str(), (int)(vAddr->size()));
         it++;
         if (addr.nTime <= 100000000 || addr.nTime > now + 600)
           addr.nTime = now - 5 * 86400;
@@ -242,11 +242,11 @@ public:
         vRecv.resize(nPos + nBytes);
         memcpy(&vRecv[nPos], pchBuf, nBytes);
       } else if (nBytes == 0) {
-        printf("%s: BAD (connection closed prematurely)\n", ToString(you).c_str());
+        // printf("%s: BAD (connection closed prematurely)\n", ToString(you).c_str());
         res = false;
         break;
       } else {
-        printf("%s: BAD (connection error)\n", ToString(you).c_str());
+        // printf("%s: BAD (connection error)\n", ToString(you).c_str());
         res = false;
         break;
       }
@@ -276,7 +276,7 @@ public:
   }
 };
 
-bool TestNode(const CService &cip, int ban, int blocks, vector<CAddress>* vAddr) {
+bool TestNode(const CService &cip, int &ban, int &clientV, std::string &clientSV, int &blocks, vector<CAddress>* vAddr) {
   try {
     CNode node(cip, vAddr);
     bool ret = node.Run();
@@ -285,8 +285,8 @@ bool TestNode(const CService &cip, int ban, int blocks, vector<CAddress>* vAddr)
     } else {
       ban = 0;
     }
-    int clientV = node.GetClientVersion();
-    std::string clientSV = node.GetClientSubVersion();
+    clientV = node.GetClientVersion();
+    clientSV = node.GetClientSubVersion();
     blocks = node.GetStartingHeight();
     printf("%s: %s!!!\n", cip.ToString().c_str(), ret ? "GOOD" : "BAD");
     return ret;
@@ -296,13 +296,14 @@ bool TestNode(const CService &cip, int ban, int blocks, vector<CAddress>* vAddr)
   }
 }
 
+/*
 int main(void) {
-    int defaultPort = GetDefaultPort();
-  CService ip("owldevelopers.site", defaultPort, true);
+  CService ip("bitcoin.sipa.be", 8333, true);
   vector<CAddress> vAddr;
   vAddr.clear();
   int ban = 0;
-  bool ret = TestNode(ip, ban, 589, &vAddr);
+  bool ret = TestNode(ip, ban, vAddr);
   printf("ret=%s ban=%i vAddr.size()=%i\n", ret ? "good" : "bad", ban, (int)vAddr.size());
 }
+*/
 
