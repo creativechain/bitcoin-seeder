@@ -303,9 +303,8 @@ int main(void) {
   vAddr.clear();
   int ban = 0;
   int ver = 0;
-  std::string cVer = "";
   std::string cSubVer = "";
-  bool ret = TestNode(ip, ban, ver, cVer, cSubVer, 589, vAddr);
+  bool ret = TestNode(ip, ban, ver, cSubVer, 589, vAddr);
   printf("ret=%s ban=%i vAddr.size()=%i\n", ret ? "good" : "bad", ban, (int)vAddr.size());
 }
 
