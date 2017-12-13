@@ -276,7 +276,7 @@ public:
   }
 };
 
-bool TestNode(const CService &cip, int &ban, int &clientV, std::string &clientSV, int &blocks, vector<CAddress>* vAddr) {
+bool TestNode(const CService &cip, int ban, int blocks, vector<CAddress>* vAddr) {
   try {
     CNode node(cip, vAddr);
     bool ret = node.Run();
@@ -285,8 +285,8 @@ bool TestNode(const CService &cip, int &ban, int &clientV, std::string &clientSV
     } else {
       ban = 0;
     }
-    clientV = node.GetClientVersion();
-    clientSV = node.GetClientSubVersion();
+    int clientV = node.GetClientVersion();
+    std::string clientSV = node.GetClientSubVersion();
     blocks = node.GetStartingHeight();
     printf("%s: %s!!!\n", cip.ToString().c_str(), ret ? "GOOD" : "BAD");
     return ret;
@@ -302,9 +302,7 @@ int main(void) {
   vector<CAddress> vAddr;
   vAddr.clear();
   int ban = 0;
-  int ver = 0;
-  std::string cSubVer = "";
-  bool ret = TestNode(ip, ban, ver, cSubVer, 589, vAddr);
+  bool ret = TestNode(ip, ban, 589, vAddr);
   printf("ret=%s ban=%i vAddr.size()=%i\n", ret ? "good" : "bad", ban, (int)vAddr.size());
 }
 
